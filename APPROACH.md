@@ -56,6 +56,7 @@ Agents write the code. I define what to build and I approve the result.
   - `skeleton/`: the start files for a new project. The agent that creates a project copies them one time.
   - `stacks/`: the start files and rules for each stack.
   - `bin/setup-repo`: a script that sets the labels and branch protection of a new repo.
+  - `skills/`: the Claude Code skills for my side of the cycle. `/new-project` creates a project. `/spec` turns my idea into a spec.
 - **Project repos:** Each project contains only small caller workflows and its own files: specs, `CLAUDE.md`, and `CHANGELOG.md`.
 - **Secrets:** A personal account has no shared secrets. The agent that creates a project sets its secrets with `gh secret set`.
 - **Models:** The build and fix agents use Claude Opus. The review agent uses Claude Sonnet.
@@ -104,3 +105,4 @@ None at this time.
 - 2026-10-01: Removed the separate template repo. The start files are in `skeleton/` in `leanucci/workflows`.
 - 2026-10-01: Wrote the first version of `leanucci/workflows`. Shared agent rules moved to `prompts/common.md`. Added the models.
 - 2026-10-01: A bot opens spec pull requests, so I can approve them. Branch protection has no admin bypass.
+- 2026-10-01: Added the `/spec` and `/new-project` skills.
