@@ -24,3 +24,13 @@ The projects in my portfolio.
 - **Package:** https://rubygems.org/gems/wsaa-ruby
 - **Local copy:** `/Users/lean/work/afip/ruby/wsaa-ruby`
 - **Cycle:** manual
+
+## pomodoro
+
+- **Type:** web app
+- **Summary:** A Pomodoro timer web app. Users run focus sessions and breaks and see their history. Google sign-in and a database come later.
+- **Stack:** Next.js, TypeScript, Tailwind CSS. Later: Auth.js and Postgres on Neon.
+- **Repo:** https://github.com/leanucci/pomodoro
+- **Deploy:** Vercel
+- **Local copy:** `/Users/lean/work/pomodoro`
+- **Cycle:** agent
