@@ -1,6 +1,6 @@
 # Approach
 
-Last updated: 2026-10-01
+Last updated: 2026-10-05
 
 ## Goal
 
@@ -29,10 +29,11 @@ Agents write the code. I define what to build and I approve the result.
 
 ## The Review Agent
 
-- It uses a different model from the build agent, so the two agents make different mistakes.
-- It sees only the spec and the diff. It does not see the reasoning of the build agent.
+- It uses a different provider from the build agent: Google Antigravity with Gemini. Claude builds, and Gemini reviews, so the two agents make different mistakes.
+- It runs in read-only mode. It cannot change files, run commands, or push. The workflow posts its review.
+- It sees only the spec, the diff, and the repo. It does not see the reasoning of the build agent.
 - It looks for bugs, gaps between the spec and the code, missing tests, and security problems. It does not praise the code.
-- Later, it can use a different provider.
+- A project can use Claude as the reviewer instead.
 
 ## Automation
 
@@ -59,7 +60,7 @@ Agents write the code. I define what to build and I approve the result.
   - `skills/`: the Claude Code skills for my side of the cycle. `/new-project` creates a project. `/spec` turns my idea into a spec.
 - **Project repos:** Each project contains only small caller workflows and its own files: specs, `CLAUDE.md`, and `CHANGELOG.md`.
 - **Secrets:** A personal account has no shared secrets. The agent that creates a project sets its secrets with `gh secret set`.
-- **Models:** The build and fix agents use Claude Opus. The review agent uses Claude Sonnet.
+- **Models:** The build and fix agents use Claude Opus. The review agent uses Google Antigravity with Gemini.
 - **Local copies:** All repos are in subfolders of `/Users/lean/work`.
 
 ### Stacks and Targets
@@ -106,3 +107,4 @@ None at this time.
 - 2026-10-01: Wrote the first version of `leanucci/workflows`. Shared agent rules moved to `prompts/common.md`. Added the models.
 - 2026-10-01: A bot opens spec pull requests, so I can approve them. Branch protection has no admin bypass.
 - 2026-10-01: Added the `/spec` and `/new-project` skills.
+- 2026-10-05: The review agent now uses Google Antigravity (Gemini), a different provider from the build agent.
