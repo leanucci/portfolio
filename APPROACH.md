@@ -30,11 +30,10 @@ I can stop a build while it runs, if the spec is wrong.
 
 ## The Review Agent
 
-- It uses a different provider from the build agent: Google Antigravity with Gemini. Claude builds, and Gemini reviews, so the two agents make different mistakes.
-- It runs in read-only mode. It cannot change files, run commands, or push. The workflow posts its review.
+- It uses a different model from the build agent: Claude Sonnet reviews, and Claude Opus builds. So the two agents make different mistakes.
+- It has a limited tool set. It can read code and post a review, but it cannot change files or push. A guard detects a push during the review.
 - It sees only the spec, the diff, and the repo. It does not see the reasoning of the build agent.
 - It looks for bugs, gaps between the spec and the code, missing tests, and security problems. It does not praise the code.
-- A project can use Claude as the reviewer instead.
 
 ## Automation
 
@@ -60,7 +59,7 @@ I can stop a build while it runs, if the spec is wrong.
   - `skills/`: the Claude Code skills for my side of the cycle. `/new-project` creates a project. `/spec` turns my idea into a spec.
 - **Project repos:** Each project contains one caller workflow (`agent.yml`), the CI and release callers of its stack, and its own files: specs, `CLAUDE.md`, and `CHANGELOG.md`. `agent.yml` has all triggers and permissions, so changes to the central repo need no change in the projects.
 - **Secrets:** A personal account has no shared secrets. The agent that creates a project sets its secrets with `gh secret set`.
-- **Models:** The build and fix agents use Claude Opus. The review agent uses Google Antigravity with Gemini.
+- **Models:** The build and fix agents use Claude Opus. The review agent uses Claude Sonnet.
 - **Local copies:** All repos are in subfolders of `/Users/lean/work`.
 
 ### Stacks and Targets
@@ -109,3 +108,4 @@ None at this time.
 - 2026-10-01: Added the `/spec` and `/new-project` skills.
 - 2026-10-05: The review agent now uses Google Antigravity (Gemini), a different provider from the build agent.
 - 2026-10-06: One pull request for each feature, with the spec and the code. No spec pull request. One caller workflow for each project.
+- 2026-10-06: Removed the Antigravity reviewer. The Gemini API failed with capacity and billing errors. Claude is the only reviewer again.
