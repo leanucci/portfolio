@@ -1,6 +1,6 @@
 # Approach
 
-Last updated: 2026-10-05
+Last updated: 2026-10-06
 
 ## Goal
 
@@ -14,18 +14,19 @@ Agents write the code. I define what to build and I approve the result.
 3. **Everything lives on GitHub.** Code, specs, reviews, and releases are all public and have a history.
 4. **Automate the full cycle.** A feature goes from idea to production with no manual steps, except my approval.
 5. **Trust comes from review.** A different agent reviews each change and tries to find problems.
-6. **A human makes the final decision.** I approve each change twice: the spec before the build, and the code before the merge.
+6. **A human makes the final decision.** I approve each feature one time: the spec and the code together, in one pull request.
 
 ## The Cycle
 
-1. **Define.** I prompt an agent with the project and the feature. The agent writes `specs/NNN-feature-name.md` and pushes it on the branch `spec/NNN-feature-name`. A workflow opens the spec pull request as a bot, so I am never the author of a pull request.
-2. **Approve the spec.** I approve and merge the spec pull request. This approves *what* to build. Before the merge, I can request changes in a comment.
-3. **Build.** The merge to `main` starts a GitHub Action. A build agent reads the spec, writes the code, and opens a pull request that links to the spec.
-4. **Review.** A review agent does an adversarial review of the code pull request.
-5. **Fix.** If the reviewer requests changes, the build agent fixes them. After 3 rounds, the loop stops and the pull request gets the `needs-human` label.
-6. **Verify.** CI runs on each push.
-7. **Approve the code.** I merge the code pull request when I am satisfied.
-8. **Ship.** CD releases a new package version or deploys the web app.
+1. **Define.** I describe a feature to an agent. The `/spec` skill writes `specs/NNN-feature-name.md`, shows it to me, and pushes it on the branch `build/NNN-feature-name`. It opens no pull request.
+2. **Build.** The push starts a GitHub Action. A build agent reads the spec, adds the code to the same branch, and opens one pull request with the spec and the code. A bot opens it, so I am never the author of a pull request.
+3. **Review.** A review agent does an adversarial review of the pull request against the spec.
+4. **Fix.** If the reviewer requests changes, the build agent fixes them. After 3 rounds, the loop stops and the pull request gets the `needs-human` label.
+5. **Verify.** CI runs on each push.
+6. **Approve.** I approve and merge the pull request when I am satisfied with the spec and the code.
+7. **Ship.** CD releases a new package version or deploys the web app.
+
+I can stop a build while it runs, if the spec is wrong.
 
 ## The Review Agent
 
@@ -39,10 +40,9 @@ Agents write the code. I define what to build and I approve the result.
 
 | Step | Done by | Trigger |
 |---|---|---|
-| Spec | Agent, from my prompt | My prompt |
-| Spec pull request | Spec workflow (`spec.yml`) | Push to a `spec/*` branch |
-| Build | Build agent (`build.yml`) | New `specs/*.md` file on `main` |
-| Review | Review agent (`review.yml`) | Code pull request opens or changes |
+| Spec | `/spec` skill, from my prompt | My prompt |
+| Build | Build agent (`build.yml`) | Push of a new spec to a `build/*` branch |
+| Review | Review agent (`review.yml`) | Pull request opens or changes |
 | Fix | Build agent (`fix.yml`) | Reviewer requests changes |
 | Tests | CI (`ci.yml`) | Each push to a pull request |
 | Merge gate | GitHub branch protection | CI must pass, and I must approve. Nobody can bypass it. Agents cannot merge. |
@@ -58,7 +58,7 @@ Agents write the code. I define what to build and I approve the result.
   - `stacks/`: the start files and rules for each stack.
   - `bin/setup-repo`: a script that sets the labels and branch protection of a new repo.
   - `skills/`: the Claude Code skills for my side of the cycle. `/new-project` creates a project. `/spec` turns my idea into a spec.
-- **Project repos:** Each project contains only small caller workflows and its own files: specs, `CLAUDE.md`, and `CHANGELOG.md`.
+- **Project repos:** Each project contains one caller workflow (`agent.yml`), the CI and release callers of its stack, and its own files: specs, `CLAUDE.md`, and `CHANGELOG.md`. `agent.yml` has all triggers and permissions, so changes to the central repo need no change in the projects.
 - **Secrets:** A personal account has no shared secrets. The agent that creates a project sets its secrets with `gh secret set`.
 - **Models:** The build and fix agents use Claude Opus. The review agent uses Google Antigravity with Gemini.
 - **Local copies:** All repos are in subfolders of `/Users/lean/work`.
@@ -72,7 +72,7 @@ Agents write the code. I define what to build and I approve the result.
 ### Versions
 
 - Libraries use semantic versions.
-- Each spec has a "Release" field: `major`, `minor`, `patch`, or `none`. The agent selects it from my prompt. I check it when I review the spec.
+- Each spec has a "Release" field: `major`, `minor`, `patch`, or `none`. The agent selects it from my prompt. I check it when I review the pull request.
 - The build agent changes the version number and adds an entry to `CHANGELOG.md` in the same code pull request.
 - When the version number changes on `main`, `release.yml` creates a git tag and publishes the package.
 - Web apps deploy on each merge to `main`. They do not need a version number.
@@ -108,3 +108,4 @@ None at this time.
 - 2026-10-01: A bot opens spec pull requests, so I can approve them. Branch protection has no admin bypass.
 - 2026-10-01: Added the `/spec` and `/new-project` skills.
 - 2026-10-05: The review agent now uses Google Antigravity (Gemini), a different provider from the build agent.
+- 2026-10-06: One pull request for each feature, with the spec and the code. No spec pull request. One caller workflow for each project.
