@@ -34,3 +34,13 @@ The projects in my portfolio.
 - **Deploy:** Vercel
 - **Local copy:** `/Users/lean/work/pomodoro`
 - **Cycle:** agent
+
+## wsaa-node
+
+- **Type:** library (npm package)
+- **Summary:** Node.js client for the AFIP WSAA authentication service. It gets the TOKEN and SIGN credentials that other AFIP web services need.
+- **Stack:** TypeScript, Node.js
+- **Repo:** https://github.com/leanucci/wsaa-node
+- **Deploy:** npm (public registry)
+- **Local copy:** `/Users/lean/work/wsaa-node`
+- **Cycle:** agent
