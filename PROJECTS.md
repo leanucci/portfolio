@@ -42,5 +42,5 @@ The projects in my portfolio.
 - **Stack:** TypeScript, Node.js
 - **Repo:** https://github.com/leanucci/wsaa-node
 - **Deploy:** npm (public registry)
-- **Local copy:** `/Users/lean/work/wsaa-node`
+- **Local copy:** `/Users/lean/work/afip/node/wsaa-node`
 - **Cycle:** agent
