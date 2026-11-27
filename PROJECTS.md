@@ -44,3 +44,15 @@ The projects in my portfolio.
 - **Deploy:** npm (public registry)
 - **Local copy:** `/Users/lean/work/afip/node/wsaa-node`
 - **Cycle:** agent
+
+## roadmap-mcp
+
+- **Type:** web app
+- **Summary:** A remote MCP server for the roadmap planning agent. Typed tools over the GitHub
+  issues it manages: read roadmap state, create linked issues, mark one ready to build, and
+  read or record standing planning policy.
+- **Stack:** Cloudflare Worker, TypeScript
+- **Repo:** https://github.com/leanucci/roadmap-mcp
+- **Deploy:** Cloudflare Workers
+- **Local copy:** `/Users/lean/work/roadmap-mcp`
+- **Cycle:** agent
