@@ -56,3 +56,15 @@ The projects in my portfolio.
 - **Deploy:** Cloudflare Workers
 - **Local copy:** `/Users/lean/work/roadmap-mcp`
 - **Cycle:** agent
+
+## wsaa-go
+
+- **Type:** library (Go module)
+- **Summary:** Go client for the AFIP WSAA authentication service. It gets the TOKEN and SIGN
+  credentials that other AFIP web services need. A Go port of wsaa-ruby and wsaa-node, and
+  the first real write target for roadmap-mcp's write tools.
+- **Stack:** Go
+- **Repo:** https://github.com/leanucci/wsaa-go
+- **Package:** proxy.golang.org (no account; a git tag is the release)
+- **Local copy:** `/Users/lean/work/afip/go/wsaa-go`
+- **Cycle:** agent
